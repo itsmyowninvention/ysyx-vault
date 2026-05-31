@@ -51,12 +51,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "门电路分析.md",
+                "file": "pMos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "门电路分析"
+              "title": "pMos"
             }
           }
         ],
@@ -224,14 +224,15 @@
   },
   "active": "e4729c3e87790b46",
   "lastOpenFiles": [
+    "Untitled.base",
+    "pMos.md",
+    "门电路分析.md",
     "Pasted image 20260531152131.png",
     "CMOS电路.md",
-    "门电路分析.md",
     "数字逻辑电路基础.md",
     "Untitled",
     "F2 Logisim安装和使用.md",
     "nMos.md",
-    "pMos.md",
     "Welcome.md"
   ]
 }
