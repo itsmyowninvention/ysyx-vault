@@ -7,8 +7,10 @@
 - 在指令的基本格式中, 需要多少位来表示一个GPR? 为什么?
 - `add`指令的格式具体是什么?
 - `addi`指令的格式具体是什么?
+- `jalr`指令的格式具体是什么?
 - 还有一种基础指令集称为RV32E, 它和RV32I有什么不同?
 - 为了了解RISC-V对存储器的若干约定, 你需要阅读RISC-V手册第1.4节的第一段, 从ISA的层面了解存储器的规格, 尤其是宽度的定义.
+- 阅读RISC-V手册第1.1节，了解"hart"的概念——什么是hart？它和core、software thread有什么区别？
 
 ---
 
@@ -86,6 +88,43 @@ sISA（教学简化 ISA，见 [`计算10以内的奇数之和.md`](obsidian://op
 - **funct7** = `0000000`（SUB 为 `0100000`）
 - 语义：`R[rd] = R[rs1] + R[rs2]`，溢出忽略，仅保留低 XLEN 位
 
+### `jalr` 指令的格式具体是什么？
+
+`JALR` 使用 **I-type 格式**（手册 2.1.4.4 节 "Unconditional Jump Instructions"）：
+
+```
+ 31         20 | 19    15 | 14  12 | 11    7 | 6       0
+┌──────────────┬──────────┬────────┬──────────┬──────────┐
+│  imm[11:0]   │   rs1    │ funct3 │    rd    │  opcode  │
+│  12 bits     │  5 bits  │  000   │  5 bits  │ 1100111  │
+└──────────────┴──────────┴────────┴──────────┴──────────┘
+```
+
+- **opcode** = `1100111`
+- **funct3** = `000`
+- **rs1**（位[19:15]）：基地址寄存器
+- **rd**（位[11:7]）：目标寄存器，保存返回地址（pc+4）；设为 x0 则丢弃返回地址
+- **imm[11:0]**（位[31:20]）：12 位有符号偏移量
+
+**功能**：间接跳转并链接（Jump And Link Register）。
+
+语义：
+```
+t   = pc + 4
+pc  = (R[rs1] + sign_extend(imm)) & ~1   // 强制最低位为 0
+R[rd] = t
+```
+
+目标地址由 rs1 + 有符号立即数决定，并强制最低位清零（保证 2 字节对齐）。
+
+**典型用法**：
+
+| 用法 | 汇编 | 说明 |
+|------|------|------|
+| 函数返回 | `jalr x0, x1, 0` | rs1=ra，rd=x0，等价于 `ret` |
+| 间接调用 | `jalr x1, x5, 0` | 跳转到 x5 指向的函数，ra 保存返回地址 |
+| 带偏移跳转 | `jalr x0, x2, 8` | 跳转到 sp+8 |
+
 ### `addi` 指令的格式具体是什么？
 
 `ADDI` 使用 **I-type 格式**（手册 2.1.4.1 节，第 31 页）：
@@ -137,13 +176,13 @@ sISA（教学简化 ISA，见 [`计算10以内的奇数之和.md`](obsidian://op
 
 > "A RISC-V hart has a single byte-addressable address space of 2^XLEN bytes for all memory accesses, where a byte is 8 bits. The memory address space is circular, so that the byte at address 2^XLEN−1 is adjacent to the byte at address zero. Accordingly, memory address computations done by the hardware ignore overflow and instead wrap around modulo 2^XLEN."
 
-| 要点 | 说明 |
-|------|------|
-| 地址空间 | 每个 hart 拥有一个字节寻址（byte-addressable）的地址空间 |
-| 大小 | **2^XLEN 字节**（RV32I 中 XLEN=32，即 4 GiB） |
-| 字节定义 | **1 byte = 8 bits** |
+| 要点   | 说明                                       |
+| ---- | ---------------------------------------- |
+| 地址空间 | 每个 hart 拥有一个字节寻址（byte-addressable）的地址空间  |
+| 大小   | **2^XLEN 字节**（RV32I 中 XLEN=32，即 4 GiB）   |
+| 字节定义 | **1 byte = 8 bits**                      |
 | 地址循环 | 地址空间是 circular（循环的），地址 2^XLEN−1 与地址 0 相邻 |
-| 溢出行为 | 硬件地址计算**忽略溢出**，按模 2^XLEN 回绕 |
+| 溢出行为 | 硬件地址计算**忽略溢出**，按模 2^XLEN 回绕              |
 
 **存储器宽度定义**（第二段）：
 
@@ -159,5 +198,26 @@ sISA（教学简化 ISA，见 [`计算10以内的奇数之和.md`](obsidian://op
 | quadword | 128 bits | 16 B |
 
 > 注意：RISC-V 中 **word 固定为 32 bits**，与 XLEN 无关。这与 x86 中 "word=16 bits"、ARM 中 "word 取决于位宽" 的惯例不同。
+
+### 什么是 hart？（手册第 1.1 节）
+
+**hart** = **HAR**dware **T**hread（硬件线程），是 RISC-V 架构中最小的独立执行单元。
+
+手册原文：
+
+> "A RISC-V compatible core might support multiple RISC-V-compatible hardware threads, or harts, through multithreading."
+
+| 概念 | 说明 |
+|------|------|
+| hart | 硬件线程，拥有独立的 PC 和寄存器文件（x0–x31），可独立取指、译码、执行。从软件视角看，一个 hart 就是一个独立的 CPU |
+| core | 物理核心，一个 core 可通过多线程（SMT）同时运行多个 hart |
+| software thread | 操作系统层面的调度抽象；hart 上运行的软件感知不到上下文切换，始终觉得自己独占整条流水线 |
+
+**关键区分**：
+
+- **hart ≠ core**：一个多线程核心可以有多个 hart。"RISC-V compatible core might support multiple ... harts"
+- **hart ≠ software thread**：hart 是硬件执行资源，软件线程是 OS 调度概念。hart 是硬件层面的最小执行实体，它给上层的软件线程提供了一个"看起来像独立 CPU"的执行环境
+
+> 简记：**hart 是硬件能独立执行一条指令流的最小实体。** 之前存储器章节里 "A RISC-V hart has a single byte-addressable address space..." ，就是在说每个 hart 都拥有自己独立的 2^XLEN 字节地址空间。
 
 
