@@ -61,7 +61,6 @@
     <a name="circuit" val="minirv"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="2048000.0"/>
-    <comp lib="0" loc="(120,220)" name="Ground"/>
     <comp lib="0" loc="(90,430)" name="Clock">
       <a name="appearance" val="NewPins"/>
     </comp>
@@ -69,6 +68,7 @@
       <a name="appearance" val="NewPins"/>
       <a name="label" val="reset"/>
     </comp>
+    <comp lib="13" loc="(670,400)" name="GPR_32x32bit"/>
     <comp loc="(430,200)" name="fetcher"/>
     <comp loc="(990,190)" name="executor"/>
     <wire from="(1010,190)" to="(1010,560)"/>
@@ -81,12 +81,13 @@
     <wire from="(110,430)" to="(140,430)"/>
     <wire from="(1100,250)" to="(1100,650)"/>
     <wire from="(1160,270)" to="(1160,730)"/>
-    <wire from="(120,220)" to="(210,220)"/>
     <wire from="(140,400)" to="(140,430)"/>
     <wire from="(140,400)" to="(450,400)"/>
+    <wire from="(170,220)" to="(210,220)"/>
     <wire from="(170,260)" to="(170,480)"/>
     <wire from="(170,260)" to="(210,260)"/>
     <wire from="(170,30)" to="(1060,30)"/>
+    <wire from="(170,30)" to="(170,220)"/>
     <wire from="(170,480)" to="(170,520)"/>
     <wire from="(170,480)" to="(450,480)"/>
     <wire from="(200,200)" to="(210,200)"/>
@@ -827,7 +828,7 @@ e7 0 c0 0 67 0 c0 0
     <comp lib="2" loc="(830,130)" name="Multiplexer"/>
     <comp loc="(540,180)" name="instruction_identifier"/>
     <comp loc="(540,320)" name="addi_executor"/>
-    <comp loc="(550,670)" name="jalr_executor"/>
+    <comp loc="(550,670)" name="jalr_excutor"/>
     <wire from="(1000,340)" to="(1000,960)"/>
     <wire from="(1000,960)" to="(1040,960)"/>
     <wire from="(1030,320)" to="(1030,790)"/>
@@ -1044,83 +1045,12 @@ e7 0 c0 0 67 0 c0 0
     <wire from="(940,230)" to="(940,250)"/>
     <wire from="(940,230)" to="(980,230)"/>
   </circuit>
-  <circuit name="jalr_executor">
+  <circuit name="jalr_excutor">
     <a name="appearance" val="logisim_evolution"/>
-    <a name="circuit" val="jalr_executor"/>
+    <a name="circuit" val="jalr_excutor"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="2048000.0"/>
-    <comp lib="0" loc="(1000,580)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="jump_addr"/>
-      <a name="radix" val="16"/>
-      <a name="type" val="output"/>
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(1000,700)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="jump_enable"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(250,590)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="label" val="rdata1"/>
-      <a name="radix" val="16"/>
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(260,270)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="label" val="instruction"/>
-      <a name="radix" val="16"/>
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(260,850)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="behavior" val="pulldown"/>
-      <a name="label" val="next_addr"/>
-      <a name="radix" val="16"/>
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(730,560)" name="Bit Extender">
-      <a name="in_width" val="12"/>
-      <a name="out_width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(940,250)" name="Ground">
-      <a name="width" val="5"/>
-    </comp>
-    <comp lib="0" loc="(940,330)" name="Power"/>
-    <comp lib="0" loc="(950,680)" name="Power"/>
-    <comp lib="0" loc="(960,440)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="wdata"/>
-      <a name="radix" val="16"/>
-      <a name="type" val="output"/>
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(970,190)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="raddr1"/>
-      <a name="type" val="output"/>
-      <a name="width" val="5"/>
-    </comp>
-    <comp lib="0" loc="(970,280)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="waddr"/>
-      <a name="radix" val="16"/>
-      <a name="type" val="output"/>
-      <a name="width" val="5"/>
-    </comp>
-    <comp lib="0" loc="(970,350)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="wenable"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(980,230)" name="Pin">
+    <comp lib="0" loc="(1000,340)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
       <a name="label" val="raddr2"/>
@@ -1128,33 +1058,106 @@ e7 0 c0 0 67 0 c0 0
       <a name="type" val="output"/>
       <a name="width" val="5"/>
     </comp>
-    <comp lib="3" loc="(820,580)" name="Adder">
+    <comp lib="0" loc="(1000,810)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="jump_addr"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
       <a name="width" val="32"/>
     </comp>
-    <comp loc="(620,270)" name="instruction_decoder"/>
-    <wire from="(250,590)" to="(780,590)"/>
-    <wire from="(260,270)" to="(400,270)"/>
-    <wire from="(260,850)" to="(880,850)"/>
-    <wire from="(620,290)" to="(890,290)"/>
-    <wire from="(620,330)" to="(730,330)"/>
-    <wire from="(620,350)" to="(650,350)"/>
-    <wire from="(650,350)" to="(650,560)"/>
-    <wire from="(650,560)" to="(690,560)"/>
-    <wire from="(730,190)" to="(730,330)"/>
-    <wire from="(730,190)" to="(970,190)"/>
-    <wire from="(730,560)" to="(750,560)"/>
-    <wire from="(750,560)" to="(750,570)"/>
-    <wire from="(750,570)" to="(780,570)"/>
-    <wire from="(820,580)" to="(1000,580)"/>
-    <wire from="(880,440)" to="(880,850)"/>
-    <wire from="(880,440)" to="(960,440)"/>
-    <wire from="(890,280)" to="(890,290)"/>
-    <wire from="(890,280)" to="(970,280)"/>
-    <wire from="(940,230)" to="(940,250)"/>
-    <wire from="(940,230)" to="(980,230)"/>
-    <wire from="(940,330)" to="(940,350)"/>
-    <wire from="(940,350)" to="(970,350)"/>
-    <wire from="(950,680)" to="(950,700)"/>
-    <wire from="(950,700)" to="(1000,700)"/>
+    <comp lib="0" loc="(280,590)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="next_addr"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(300,490)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="rdata1"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(330,280)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="instruction"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(720,790)" name="Bit Extender">
+      <a name="in_width" val="12"/>
+      <a name="out_width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(940,240)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="raddr1"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
+      <a name="width" val="5"/>
+    </comp>
+    <comp lib="0" loc="(950,620)" name="Power"/>
+    <comp lib="0" loc="(960,860)" name="Power"/>
+    <comp lib="0" loc="(970,370)" name="Ground">
+      <a name="width" val="5"/>
+    </comp>
+    <comp lib="0" loc="(980,650)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="wenable"/>
+      <a name="type" val="output"/>
+    </comp>
+    <comp lib="0" loc="(990,440)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="waddr"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
+      <a name="width" val="5"/>
+    </comp>
+    <comp lib="0" loc="(990,730)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="wdata"/>
+      <a name="radix" val="16"/>
+      <a name="type" val="output"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(990,880)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="jump_enable"/>
+      <a name="type" val="output"/>
+    </comp>
+    <comp lib="3" loc="(840,810)" name="Adder">
+      <a name="width" val="32"/>
+    </comp>
+    <comp loc="(630,280)" name="instruction_decoder"/>
+    <wire from="(280,590)" to="(850,590)"/>
+    <wire from="(300,490)" to="(630,490)"/>
+    <wire from="(330,280)" to="(410,280)"/>
+    <wire from="(630,300)" to="(870,300)"/>
+    <wire from="(630,340)" to="(750,340)"/>
+    <wire from="(630,360)" to="(650,360)"/>
+    <wire from="(630,490)" to="(630,820)"/>
+    <wire from="(630,820)" to="(800,820)"/>
+    <wire from="(650,360)" to="(650,790)"/>
+    <wire from="(650,790)" to="(680,790)"/>
+    <wire from="(720,790)" to="(750,790)"/>
+    <wire from="(750,240)" to="(750,340)"/>
+    <wire from="(750,240)" to="(940,240)"/>
+    <wire from="(750,790)" to="(750,800)"/>
+    <wire from="(750,800)" to="(800,800)"/>
+    <wire from="(840,810)" to="(1000,810)"/>
+    <wire from="(850,590)" to="(850,730)"/>
+    <wire from="(850,730)" to="(990,730)"/>
+    <wire from="(870,300)" to="(870,440)"/>
+    <wire from="(870,440)" to="(990,440)"/>
+    <wire from="(950,620)" to="(950,650)"/>
+    <wire from="(950,650)" to="(980,650)"/>
+    <wire from="(960,860)" to="(960,880)"/>
+    <wire from="(960,880)" to="(990,880)"/>
+    <wire from="(970,340)" to="(1000,340)"/>
+    <wire from="(970,340)" to="(970,370)"/>
   </circuit>
 </project>
