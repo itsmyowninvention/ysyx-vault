@@ -735,10 +735,11 @@
     <comp lib="5" loc="(420,470)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 8
-b7 12 0 0 37 23 0 0
-b3 83 62 0 37 54 34 12
-93 4 30 0 33 5 94 0
-37 f0 ff ff 67
+93 2 0 10 13 3 b0 a
+23 a0 62 0 83 a3 2 0
+13 4 d0 c 23 a2 22 0
+83 a4 52 0 3 a5 2 0
+67
 </a>
       <a name="line" val="quad"/>
     </comp>
