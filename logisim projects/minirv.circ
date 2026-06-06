@@ -205,7 +205,11 @@
     <comp lib="13" loc="(670,400)" name="GPR_32x32bit"/>
     <comp loc="(1100,570)" name="memory"/>
     <comp loc="(1180,120)" name="executor"/>
+    <comp loc="(210,730)" name="cycle_count"/>
     <comp loc="(430,200)" name="fetcher"/>
+    <wire from="(110,520)" to="(110,750)"/>
+    <wire from="(110,520)" to="(210,520)"/>
+    <wire from="(110,750)" to="(210,750)"/>
     <wire from="(1100,490)" to="(1100,570)"/>
     <wire from="(1180,120)" to="(1330,120)"/>
     <wire from="(1180,140)" to="(1330,140)"/>
@@ -248,7 +252,9 @@
     <wire from="(150,370)" to="(150,430)"/>
     <wire from="(150,370)" to="(450,370)"/>
     <wire from="(150,430)" to="(150,680)"/>
+    <wire from="(150,680)" to="(150,730)"/>
     <wire from="(150,680)" to="(830,680)"/>
+    <wire from="(150,730)" to="(210,730)"/>
     <wire from="(160,190)" to="(210,190)"/>
     <wire from="(210,190)" to="(210,200)"/>
     <wire from="(210,260)" to="(210,520)"/>
@@ -295,7 +301,7 @@
     <wire from="(870,160)" to="(960,160)"/>
     <wire from="(890,190)" to="(940,190)"/>
     <wire from="(90,430)" to="(150,430)"/>
-    <wire from="(90,520)" to="(210,520)"/>
+    <wire from="(90,520)" to="(110,520)"/>
     <wire from="(900,100)" to="(960,100)"/>
     <wire from="(940,180)" to="(940,190)"/>
     <wire from="(940,180)" to="(960,180)"/>
@@ -680,18 +686,19 @@
     <a name="appearance" val="logisim_evolution"/>
     <a name="circuit" val="fetcher"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="clabelup" val="west"/>
     <a name="simulationFrequency" val="2048000.0"/>
-    <comp lib="0" loc="(200,380)" name="Pin">
+    <comp lib="0" loc="(120,340)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="clk"/>
+    </comp>
+    <comp lib="0" loc="(120,380)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="reset"/>
     </comp>
     <comp lib="0" loc="(210,300)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="jump_enable"/>
-    </comp>
-    <comp lib="0" loc="(210,340)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="label" val="clk"/>
     </comp>
     <comp lib="0" loc="(250,220)" name="Pin">
       <a name="appearance" val="NewPins"/>
@@ -816,9 +823,9 @@
       <a name="label" val="PC"/>
       <a name="width" val="32"/>
     </comp>
-    <wire from="(200,380)" to="(520,380)"/>
+    <wire from="(120,340)" to="(490,340)"/>
+    <wire from="(120,380)" to="(520,380)"/>
     <wire from="(210,300)" to="(420,300)"/>
-    <wire from="(210,340)" to="(490,340)"/>
     <wire from="(250,220)" to="(410,220)"/>
     <wire from="(390,130)" to="(390,200)"/>
     <wire from="(390,130)" to="(810,130)"/>
@@ -3657,5 +3664,41 @@
     <wire from="(690,1380)" to="(690,1400)"/>
     <wire from="(690,1380)" to="(720,1380)"/>
     <wire from="(760,1370)" to="(790,1370)"/>
+  </circuit>
+  <circuit name="cycle_count">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="cycle_count"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="2048000.0"/>
+    <comp lib="0" loc="(270,450)" name="Power"/>
+    <comp lib="0" loc="(270,470)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="clk"/>
+    </comp>
+    <comp lib="0" loc="(270,510)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="reset"/>
+    </comp>
+    <comp lib="0" loc="(460,450)" name="Constant">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="3" loc="(540,440)" name="Adder">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="5" loc="(330,400)" name="Register">
+      <a name="appearance" val="logisim_evolution"/>
+      <a name="width" val="32"/>
+    </comp>
+    <wire from="(270,450)" to="(330,450)"/>
+    <wire from="(270,470)" to="(330,470)"/>
+    <wire from="(270,510)" to="(360,510)"/>
+    <wire from="(310,350)" to="(310,430)"/>
+    <wire from="(310,350)" to="(570,350)"/>
+    <wire from="(310,430)" to="(330,430)"/>
+    <wire from="(360,490)" to="(360,510)"/>
+    <wire from="(390,430)" to="(500,430)"/>
+    <wire from="(460,450)" to="(500,450)"/>
+    <wire from="(540,440)" to="(570,440)"/>
+    <wire from="(570,350)" to="(570,440)"/>
   </circuit>
 </project>
