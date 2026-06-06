@@ -205,7 +205,7 @@
     <comp lib="13" loc="(670,400)" name="GPR_32x32bit"/>
     <comp loc="(1100,570)" name="memory"/>
     <comp loc="(1180,120)" name="executor"/>
-    <comp loc="(210,730)" name="cycle_count"/>
+    <comp loc="(210,730)" name="cycle_counter"/>
     <comp loc="(430,200)" name="fetcher"/>
     <wire from="(110,520)" to="(110,750)"/>
     <wire from="(110,520)" to="(210,520)"/>
@@ -3665,9 +3665,9 @@
     <wire from="(690,1380)" to="(720,1380)"/>
     <wire from="(760,1370)" to="(790,1370)"/>
   </circuit>
-  <circuit name="cycle_count">
+  <circuit name="cycle_counter">
     <a name="appearance" val="logisim_evolution"/>
-    <a name="circuit" val="cycle_count"/>
+    <a name="circuit" val="cycle_counter"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="2048000.0"/>
     <comp lib="0" loc="(270,450)" name="Power"/>
